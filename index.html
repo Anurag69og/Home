@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rahul Lodhi - Fullstack Developer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000; /* Pure black background */
+            color: #e2e8f0; /* Light gray text for readability */
+            transition: background-color 0.5s ease; /* Smooth transition for background change */
+            position: relative; /* Needed for pseudo-elements */
+            overflow-x: hidden; /* Prevent horizontal scroll from background elements */
+        }
+        /* Subtle background gradient/shape animation */
+        body::before, body::after, .background-shape-3, .background-shape-4 {
+            content: '';
+            position: fixed;
+            filter: blur(100px); /* Increased blur for ethereal look */
+            opacity: 0.15; /* More subtle opacity */
+            z-index: -1;
+        }
+
+        body::before {
+            top: -150px;
+            left: -150px;
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle at 50% 50%, rgba(129, 140, 248, 0.2) 0%, transparent 70%); /* Light Indigo glow */
+            border-radius: 50%;
+            animation: float1 20s infinite ease-in-out alternate;
+        }
+        body::after {
+            bottom: -150px;
+            right: -150px;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle at 50% 50%, rgba(79, 70, 229, 0.2) 0%, transparent 70%); /* Darker Indigo glow */
+            border-radius: 50%;
+            animation: float2 25s infinite ease-in-out alternate;
+        }
+        .background-shape-3 {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            width: 700px;
+            height: 250px;
+            background: linear-gradient(90deg, rgba(79, 70, 229, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%); /* Linear gradient rectangle */
+            border-radius: 120px; /* Rounded rectangle */
+            animation: float3 30s infinite ease-in-out alternate, rotate3 40s infinite linear;
+        }
+        .background-shape-4 {
+            top: 10%;
+            right: 10%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle at 50% 50%, rgba(251, 113, 133, 0.1) 0%, transparent 70%); /* Rose-400 subtle glow */
+            transform: rotate(45deg); /* Diamond shape */
+            animation: float4 18s infinite ease-in-out alternate, rotate4 25s infinite linear;
+        }
+
+        @keyframes float1 {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(70px, 100px) scale(1.05); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes float2 {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-80px, -60px) scale(1.08); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes float3 {
+            0% { transform: translate(-50%, -50%); }
+            50% { transform: translate(-45%, -55%); }
+            100% { transform: translate(-50%, -50%); }
+        }
+        @keyframes rotate3 {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        @keyframes float4 {
+            0% { transform: translate(0, 0) rotate(45deg); }
+            50% { transform: translate(-30px, 50px) rotate(50deg); }
+            100% { transform: translate(0, 0) rotate(45deg); }
+        }
+        @keyframes rotate4 {
+            0% { transform: rotate(45deg); }
+            100% { transform: rotate(405deg); }
+        }
+
+
+        /* Custom text selection color */
+        ::selection {
+            background-color: #6366f1; /* Indigo-500 */
+            color: #ffffff;
+        }
+        ::-moz-selection {
+            background-color: #6366f1; /* Indigo-500 */
+            color: #ffffff;
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+            color: #ffffff; /* Ensure title is white on dark background */
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 70%;
+            height: 4px;
+            background-color: #6366f1; /* Indigo-500 for underline - catchy accent */
+            border-radius: 9999px;
+        }
+        /* Custom scrollbar for a modern look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101010; /* Darker track */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4f46e5; /* Indigo-600 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6366f1; /* Indigo-500 */
+        }
+        /* Custom styles for the new header */
+        .header-card {
+            background-color: rgba(0, 0, 0, 0.7); /* Darker translucent with blur */
+            backdrop-filter: blur(16px); /* Increased blur */
+            -webkit-backdrop-filter: blur(16px); /* For Safari */
+            transition: all 0.3s ease-in-out; /* Smooth transition for size changes */
+            width: 95%; /* Expanded to 95% */
+            max-width: 95%; /* Expanded to 95% */
+            left: 0;
+            right: 0;
+            margin: auto; /* Center it */
+            border-color: #2d3748; /* Darker border */
+        }
+        /* Class to apply when scrolled */
+        .header-card.scrolled {
+            padding-top: 0.25rem; /* py-1 equivalent */
+            padding-bottom: 0.25rem; /* py-1 equivalent */
+            border-radius: 2rem; /* rounded-3xl equivalent */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.12); /* Slightly stronger shadow on dark */
+            width: 70%; /* Shrink to 70% of its container */
+            max-width: 70%; /* Shrink to 70% of its container */
+        }
+        .header-card.scrolled .profile-name {
+            font-size: 0.875rem; /* text-sm equivalent */
+        }
+
+        /* Enhanced hover effects for project cards */
+        .project-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            background-color: #0a0a0a; /* Darker card background */
+            border-color: #2d3748; /* Darker border */
+            color: #e2e8f0; /* Light text */
+        }
+        .project-card:hover {
+            transform: translateY(-8px); /* More pronounced lift effect */
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2); /* Larger, more visible shadow on dark */
+        }
+
+        /* Fade-in animation for sections */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Button hover animation */
+        .animated-button {
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+        .animated-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4); /* Stronger shadow for dark theme */
+        }
+
+        /* Skill tag hover animation */
+        .skill-tag {
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            color: #ffffff; /* Ensure text is white */
+        }
+        .skill-tag:hover {
+            transform: scale(1.05); /* Slightly enlarge */
+            filter: brightness(1.2); /* More brightness for dark theme */
+        }
+
+        /* Profile image hover animation */
+        .profile-image-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .profile-image-hover:hover {
+            transform: scale(1.02); /* Slight scale */
+            box-shadow: 0 0 0 6px rgba(99, 102, 241, 0.3); /* Indigo glow (Indigo-500 with opacity) */
+        }
+
+        /* Contact Modal Specific Styles */
+        .contact-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Darker semi-transparent black overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* High z-index to be on top */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .contact-modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .contact-modal-content {
+            background-color: #0a0a0a; /* Dark background for modal */
+            padding: 2.5rem; /* Increased padding */
+            border-radius: 1.5rem; /* More rounded */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); /* Stronger shadow for dark theme */
+            max-width: 90%;
+            width: 450px; /* Fixed width for consistency */
+            transform: translateY(20px); /* Initial position for slide-up */
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            position: relative;
+            color: #e2e8f0; /* Light text for modal content */
+        }
+
+        .contact-modal-overlay.open .contact-modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .contact-button-base {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem; /* gap-3 equivalent */
+            white-space: nowrap;
+            border-radius: 0.5rem; /* rounded-md equivalent */
+            font-size: 0.875rem; /* text-sm equivalent */
+            font-weight: 500;
+            transition: all 0.2s ease; /* transition-all duration-200 equivalent */
+            height: 2.25rem; /* h-9 equivalent */
+            padding-left: 1rem; /* px-4 equivalent */
+            padding-right: 1rem; /* px-4 equivalent */
+            cursor: pointer;
+            position: relative;
+            text-align: left; /* Align text to left */
+            width: 100%; /* Take full width of grid cell */
+        }
+
+        .contact-button-base:hover {
+            filter: brightness(1.15); /* More brightness for dark theme hover */
+        }
+
+        .contact-button-primary {
+            background-color: #6366f1; /* Indigo-500 */
+            color: #ffffff; /* White text */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1); /* shadow-xs equivalent */
+        }
+        .contact-button-primary:hover {
+            background-color: #4f46e5; /* Indigo-600 */
+        }
+
+        .contact-button-secondary {
+            border: 1px solid #2d3748; /* Darker border */
+            background-color: #0a0a0a; /* Dark background */
+            color: #e2e8f0; /* Light text */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1); /* shadow-xs equivalent */
+        }
+        .contact-button-secondary:hover {
+            background-color: #1a1a1a; /* Darker hover background */
+            color: #ffffff; /* White text on hover */
+        }
+
+        .contact-button-icon {
+            position: absolute;
+            right: 0.75rem; /* right-3 equivalent */
+            height: 1rem; /* !h-4 equivalent */
+            width: 1rem; /* !w-4 equivalent */
+            flex-shrink: 0;
+            pointer-events: none; /* Ensure icon doesn't block click */
+            color: currentColor; /* Inherit color from parent button */
+        }
+        /* Specific size for recommended buttons' icons */
+        .contact-button-grid .contact-button-primary .contact-button-icon {
+            height: 0.875rem; /* !h-3.5 equivalent */
+            width: 0.875rem; /* !w-3.5 equivalent */
+        }
+
+        .contact-modal-close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #a0aec0; /* Light gray for close button */
+            cursor: pointer;
+            transition: color 0.2s ease;
+            z-index: 10; /* Ensure it's above content */
+        }
+        .contact-modal-close-button:hover {
+            color: #cbd5e0; /* Lighter gray on hover */
+        }
+        /* Project Idea Generator specific styles */
+        #project-idea-output {
+            min-height: 100px; /* Ensure space for content */
+            padding: 1rem;
+            background-color: #1a1a1a; /* Dark background */
+            border: 1px solid #2d3748; /* Dark border */
+            border-radius: 0.75rem;
+            color: #e2e8f0;
+            margin-top: 1.5rem;
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-style: italic;
+        }
+        #project-idea-output.loading {
+            color: #6366f1; /* Indigo loading text */
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Additional background shapes -->
+    <div class="background-shape-3"></div>
+    <div class="background-shape-4"></div>
+
+    <!-- Header/Navigation - Modernized -->
+    <header id="main-header" class="sticky top-8 z-50 px-4 md:px-0 flex justify-center">
+        <div class="container mx-auto flex items-center justify-between py-1 px-1.5 rounded-3xl shadow-xl border border-gray-200 header-card">
+            <!-- Profile Info -->
+            <div class="flex items-center gap-3">
+                <img class="h-10 w-10 rounded-2xl object-cover profile-image-hover" src="https://placehold.co/40x40/6366f1/ffffff?text=RL" alt="Rahul Lodhi">
+                <div class="w-fit grid">
+                    <h1 class="text-sm font-bold text-gray-100 profile-name">Rahul Lodhi</h1>
+                    <div class="flex text-gray-400 items-center profile-status">
+                        <span class="text-xs">Available for work</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dot animate-ping h-4 w-4 text-green-400" aria-hidden="true"><circle cx="12.1" cy="12.1" r="1"></circle></svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav id="main-nav" class="flex space-x-6 hidden md:flex">
+                <ul class="flex space-x-6">
+                    <li><a href="#summary" class="text-gray-400 hover:text-indigo-400 transition duration-300 font-medium">Summary</a></li>
+                    <li><a href="#experience" class="text-gray-400 hover:text-indigo-400 transition duration-300 font-medium">Experience</a></li>
+                    <li><a href="#projects" class="text-gray-400 hover:text-indigo-400 transition duration-300 font-medium">Projects</a></li>
+                    <li><a href="#skills" class="text-gray-400 hover:text-indigo-400 transition duration-300 font-medium">Skills</a></li>
+                </ul>
+            </nav>
+
+            <!-- Contact Me Button -->
+            <div>
+                <button id="contact-me-button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium animated-button disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-indigo-600 focus-visible:ring-indigo-600/50 focus-visible:ring-[3px] aria-invalid:ring-red-500/20 dark:aria-invalid:ring-red-500/40 aria-invalid:border-red-500 bg-indigo-600 text-white shadow-xs hover:bg-indigo-700 h-9 px-4 py-2 has-[&>svg]:px-3 rounded-2xl" type="button">
+                    Contact Me
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 md:py-12 mt-16">
+        <!-- Summary Section -->
+        <section id="summary" class="bg-gray-900 p-6 md:p-8 rounded-xl shadow-lg mb-8 fade-in-section">
+            <h2 class="text-3xl font-bold text-white mb-6 section-title">Summary</h2>
+            <div class="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-8">
+                <div class="flex-shrink-0">
+                    <!-- Placeholder image for a profile picture -->
+                    <img src="https://placehold.co/150x150/6366f1/ffffff?text=RL" alt="Rahul Lodhi Profile" class="rounded-full w-32 h-32 object-cover border-4 border-indigo-500 shadow-md profile-image-hover">
+                </div>
+                <div>
+                    <p class="text-lg text-gray-300 leading-relaxed mb-4">
+                        I am a self-taught full-stack developer with expertise in TypeScript, Node.js, Express, React, Next.js, Nitro, Nuxt, and many more. Experienced in building and deploying scalable web applications. Skilled in software architecture and performance optimization.
+                    </p>
+                    <p class="text-gray-400">
+                        When I'm not working, I'm developing new skills, enhancing my knowledge and understanding of other technologies, and building on Open Source!
+                    </p>
+                    <div class="mt-4 flex flex-wrap gap-4 text-sm text-gray-400">
+                        <span class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 text-indigo-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" /></svg> Mumbai, India</span>
+                        <a href="tel:+918108068981" class="flex items-center hover:text-indigo-400 transition duration-300"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 text-indigo-500" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg> +918108068981</a>
+                        <a href="mailto:hi@rahul.eu.org" class="flex items-center hover:text-indigo-400 transition duration-300"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 text-indigo-500" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg> hi@rahul.eu.org</a>
+                        <a href="https://rahul.eu.org" target="_blank" rel="noopener noreferrer" class="flex items-center hover:text-indigo-400 transition duration-300"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 text-indigo-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3.15 3.15A4 4 0 0012 12.001V13a2 2 0 01-2 2H9a2 2 0 01-2-2v-1.001c0-.535.183-1.05.513-1.45L12.586 4.586z" clip-rule="evenodd" /><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12z" clip-rule="evenodd" /></svg> rahul.eu.org</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="bg-gray-900 p-6 md:p-8 rounded-xl shadow-lg mb-8 fade-in-section">
+            <h2 class="text-3xl font-bold text-white mb-6 section-title">Experience</h2>
+
+            <!-- Portals Experience -->
+            <div class="mb-6 pb-6 border-b border-gray-700 last:border-b-0">
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <h3 class="text-xl font-semibold text-white">Frontend Developer</h3>
+                        <p class="text-indigo-400 font-medium">Portals</p>
+                    </div>
+                    <span class="text-gray-400 text-sm">March 2025 - June 2025</span>
+                </div>
+                <p class="text-gray-300 mb-2">Built and maintained all dynamic pages for the startup's web platform using Next.js, React, TypeScript, and Tailwind CSS. Focused on creating responsive, high-performance UIs and integrating APIs to deliver a smooth user experience. Collaborated directly with the founding team on product features and frontend architecture.</p>
+                <span class="inline-block bg-indigo-700 text-indigo-100 text-xs px-2 py-1 rounded-full font-semibold skill-tag">Remote</span>
+            </div>
+
+            <!-- Freelance Experience -->
+            <div class="mb-6 pb-6 border-b border-gray-700 last:border-b-0">
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <h3 class="text-xl font-semibold text-white">Full-Stack Developer</h3>
+                        <p class="text-indigo-400 font-medium">Freelance</p>
+                    </div>
+                    <span class="text-gray-400 text-sm">August 2024 - Till Date</span>
+                </div>
+                <p class="text-gray-300 mb-2">Worked with clients to design and develop full-stack web applications using React, Next.js, Node.js, and Tailwind CSS. Handled everything from UI design to backend APIs and deployment. Focused on building scalable, secure, and performant apps with clean architecture and modern DevOps practices.</p>
+                <span class="inline-block bg-indigo-700 text-indigo-100 text-xs px-2 py-1 rounded-full font-semibold skill-tag">Remote</span>
+            </div>
+        </section>
+
+        <!-- Selected Projects Section -->
+        <section id="projects" class="bg-gray-900 p-6 md:p-8 rounded-xl shadow-lg mb-8 fade-in-section">
+            <h2 class="text-3xl font-bold text-white mb-6 section-title">Selected Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Project Card: MySocials -->
+                <div class="bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-700 project-card">
+                    <h3 class="text-xl font-semibold text-white mb-2">MySocials</h3>
+                    <p class="text-gray-300 mb-3">A social media platform.</p>
+                    <a href="https://mysocialz.vercel.app/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-indigo-400 hover:text-indigo-300 font-medium group">
+                        View Project
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                    </a>
+                </div>
+                <!-- Project Card: AI Base -->
+                <div class="bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-700 project-card">
+                    <h3 class="text-xl font-semibold text-white mb-2">AI Base</h3>
+                    <p class="text-gray-300 mb-3">An AI-powered application.</p>
+                    <a href="https://ai-base.vercel.app/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-indigo-400 hover:text-indigo-300 font-medium group">
+                        View Project
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                    </a>
+                </div>
+                <!-- Project Card: URL Shortener -->
+                <div class="bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-700 project-card">
+                    <h3 class="text-xl font-semibold text-white mb-2">URL Shortener</h3>
+                    <p class="text-gray-300 mb-3">A service similar to Bitly.</p>
+                    <a href="https://u-sh.vercel.app" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-indigo-400 hover:text-indigo-300 font-medium group">
+                        View Project
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                    </a>
+                </div>
+                <!-- Project Card: Shield - Passbit -->
+                <div class="bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-700 project-card">
+                    <h3 class="text-xl font-semibold text-white mb-2">Shield - Passbit</h3>
+                    <p class="text-gray-300 mb-3">A security-focused application.</p>
+                    <a href="https://shiel-d.vercel.app" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-indigo-400 hover:text-indigo-300 font-medium group">
+                        View Project
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                    </a>
+                </div>
+                <!-- Project Card: Musichub -->
+                <div class="bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-700 project-card">
+                    <h3 class="text-xl font-semibold text-white mb-2">Musichub</h3>
+                    <p class="text-gray-300 mb-3">A music-related platform.</p>
+                    <a href="https://musi-c.vercel.app" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-indigo-400 hover:text-indigo-300 font-medium group">
+                        View Project
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                    </a>
+                </div>
+                <!-- Project Card: Codebin -->
+                <div class="bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-700 project-card">
+                    <h3 class="text-xl font-semibold text-white mb-2">Codebin</h3>
+                    <p class="text-gray-300 mb-3">A code sharing platform.</p>
+                    <a href="https://codebi-n.vercel.app" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-indigo-400 hover:text-indigo-300 font-medium group">
+                        View Project
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-8 text-center">
+                <a href="https://github.com/r2hu1" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-indigo-600 text-white px-6 py-3 rounded-full text-lg font-semibold shadow-md animated-button hover:bg-indigo-700 transition duration-300 transform hover:scale-105">
+                    Browse All My GitHub Projects
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="bg-gray-900 p-6 md:p-8 rounded-xl shadow-lg mb-8 fade-in-section">
+            <h2 class="text-3xl font-bold text-white mb-6 section-title">Skills</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Frontend Skills -->
+                <div>
+                    <h3 class="text-xl font-semibold text-white mb-3 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> Frontend</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-blue-900 text-blue-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">TypeScript</span>
+                        <span class="bg-blue-900 text-blue-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">React.js</span>
+                        <span class="bg-blue-900 text-blue-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">Next.js</span>
+                        <span class="bg-blue-900 text-blue-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">HTML5</span>
+                        <span class="bg-blue-900 text-blue-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">CSS3</span>
+                        <span class="bg-blue-900 text-blue-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">Tailwind CSS</span>
+                        <span class="bg-blue-900 text-blue-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">JavaScript (ES6+)</span>
+                        <span class="bg-blue-900 text-blue-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">Redux</span>
+                        <span class="bg-blue-900 text-blue-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">Zustand</span>
+                        <span class="bg-blue-900 text-blue-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">React Query</span>
+                        <span class="bg-blue-900 text-blue-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">Framer Motion</span>
+                    </div>
+                </div>
+
+                <!-- Backend Skills -->
+                <div>
+                    <h3 class="text-xl font-semibold text-white mb-3 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-4-4h.01M17 16h.01" /></svg> Backend</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-green-900 text-green-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">Node.js</span>
+                        <span class="bg-green-900 text-green-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">Express.js</span>
+                        <span class="bg-green-900 text-green-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">REST APIs</span>
+                        <span class="bg-green-900 text-green-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">WebSockets</span>
+                        <span class="bg-green-900 text-green-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">JWT/Auth</span>
+                        <span class="bg-green-900 text-green-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">Crypto</span>
+                        <span class="bg-green-900 text-green-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">MongoDB</span>
+                        <span class="bg-green-900 text-green-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">Mongoose</span>
+                        <span class="bg-green-900 text-green-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">PostgreSQL</span>
+                        <span class="bg-green-900 text-green-200 text-sm px-3 py-1 rounded-full font-medium skill-tag">Prisma</span>
+                    </div>
+                </div>
+
+                <!-- DevOps & Deployment Skills -->
+                <div>
+                    <h3 class="text-xl font-semibold text-white mb-3 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg> DevOps & Deployment</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-purple-800 text-purple-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">Docker</span>
+                        <span class="bg-purple-800 text-purple-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">Git</span>
+                        <span class="bg-purple-800 text-purple-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">GitHub Actions</span>
+                        <span class="bg-purple-800 text-purple-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">Nginx</span>
+                        <span class="bg-purple-800 text-purple-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">PM2</span>
+                        <span class="bg-purple-800 text-purple-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">Vercel</span>
+                        <span class="bg-purple-800 text-purple-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">Render</span>
+                        <span class="bg-purple-800 text-purple-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">Railway</span>
+                        <span class="bg-purple-800 text-purple-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">Netlify</span>
+                        <span class="bg-purple-800 text-purple-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">Heroku</span>
+                        <span class="bg-purple-800 text-purple-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">Firebase</span>
+                        <span class="bg-purple-800 text-purple-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">AWS EC2</span>
+                    </div>
+                </div>
+
+                <!-- Tooling & Others Skills -->
+                <div>
+                    <h3 class="text-xl font-semibold text-white mb-3 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg> Tooling & Others</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-red-800 text-red-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">ESLint</span>
+                        <span class="bg-red-800 text-red-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">Prettier</span>
+                        <span class="bg-red-800 text-red-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">Postman</span>
+                        <span class="bg-red-800 text-red-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">Swagger</span>
+                        <span class="bg-red-800 text-red-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">Linux (Ubuntu)</span>
+                        <span class="bg-red-800 text-red-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">Bash</span>
+                        <span class="bg-red-800 text-red-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">VS Code</span>
+                        <span class="bg-red-800 text-red-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">Figma</span>
+                        <span class="bg-red-800 text-red-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">Git CLI</span>
+                        <span class="bg-red-800 text-red-100 text-sm px-3 py-1 rounded-full font-medium skill-tag">pnpm/yarn/npm</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-950 text-white py-6 mt-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 Rahul Lodhi. All rights reserved.</p>
+            <div class="flex justify-center space-x-4 mt-3">
+                <a href="https://github.com/r2hu1" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.47.087.683-.233.683-.58v-1.993c-2.775.617-3.36-1.343-3.36-1.343-.464-1.169-1.133-1.477-1.133-1.477-.92-.626.073-.614.073-.614 1.004.07 1.531 1.032 1.531 1.032.892 1.529 2.341 1.089 2.91.835.09-.647.35-1.089.636-1.334-2.22-.253-4.555-1.113-4.555-4.953 0-1.091.39-1.984 1.029-2.682-.103-.253-.446-1.272.097-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.701.114 2.503.385 1.909-1.296 2.747-1.026 2.747-1.026.546 1.379.202 2.398.099 2.651.64.698 1.028 1.591 1.028 2.682 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855v2.754c0 .347.213.67.688.58C21.137 20.19 24 16.437 24 12.017 24 6.484 19.522 2 14 2h-2z" clip-rule="evenodd"/></svg>
+                </a>
+                <a href="mailto:hi@rahul.eu.org" class="text-gray-400 hover:text-white transition duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M.05 3.197c.036-.01.07-.02.106-.02h23.688c.036 0 .07.01.106.02L12 13.903.05 3.197zM24 6.305l-8.498 6.51L24 19.695V6.305zM.001 6.305v13.39L8.499 12.81.001 6.305zM22.003 21.803H1.997c-.036 0-.07-.01-.106-.02L12 10.097l10.109 11.686c-.036.01-.07.02-.106.02z"/></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Modal Overlay -->
+    <div id="contact-modal-overlay" class="contact-modal-overlay">
+        <div class="contact-modal-content">
+            <button id="contact-modal-close-button" class="contact-modal-close-button">&times;</button>
+            <div class="flex flex-col gap-2 text-center sm:text-left">
+                <h2 data-slot="dialog-title" class="text-lg leading-none font-semibold text-white">Contact Me</h2>
+                <p data-slot="dialog-description" class="text-gray-400 text-sm">Don't hesitate to reach out if you have something interesting or just want to say hi!</p>
+            </div>
+
+            <div class="px-4 md:px-0 sm:mb-0 mb-4 mt-4">
+                <div class="grid gap-2">
+                    <span class="text-gray-300 text-xs">Recommended!</span>
+                    <div class="grid grid-cols-2 gap-3 w-full">
+                        <!-- Email - Recommended -->
+                        <a target="_blank" class="contact-button-base contact-button-primary" href="mailto:hi@rahul.eu.org">
+                            <span>Email</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-button-icon"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
+                        </a>
+                        <!-- Mobile Number - Recommended -->
+                        <a target="_blank" class="contact-button-base contact-button-primary" href="tel:+918108068981">
+                            <span>Mobile</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-button-icon"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
+                        </a>
+                    </div>
+                    <span class="text-gray-300 text-xs mt-2">Other</span>
+                    <div class="grid grid-cols-1 gap-3 w-full">
+                        <!-- WhatsApp - Other -->
+                        <a target="_blank" class="contact-button-base contact-button-secondary" href="https://wa.me/+918108068981">
+                            <span>WhatsApp</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-button-icon"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
+                        </a>
+                        <!-- Discord - Other -->
+                        <a target="_blank" class="contact-button-base contact-button-secondary" href="https://discord.com/users/yourdiscordid">
+                            <span>Discord</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-button-icon"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
+                        </a>
+                        <!-- Telegram - Other -->
+                        <a target="_blank" class="contact-button-base contact-button-secondary" href="https://t.me/yourtelegramhandle">
+                            <span>Telegram</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-button-icon"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
+                        </a>
+                        <!-- Instagram - Other -->
+                        <a target="_blank" class="contact-button-base contact-button-secondary" href="https://instagram.com/r.rah_ul">
+                            <span>Instagram</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-button-icon"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for scroll-based header changes and animations -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const headerCard = document.querySelector('.header-card');
+            const mainNav = document.getElementById('main-nav');
+            const profileName = document.querySelector('.profile-name');
+            const profileStatus = document.querySelector('.profile-status');
+            const statusDot = profileStatus.querySelector('.lucide-dot');
+            const headerContainer = document.querySelector('#main-header > .container');
+
+            const contactMeButton = document.getElementById('contact-me-button');
+            const contactModalOverlay = document.getElementById('contact-modal-overlay');
+            const contactModalCloseButton = document.getElementById('contact-modal-close-button');
+
+            // Function to handle scroll events for header
+            const handleScroll = () => {
+                if (window.scrollY > 50) {
+                    headerCard.classList.add('scrolled');
+                    mainNav.classList.add('md:hidden');
+                    profileName.classList.add('text-base');
+                    profileName.classList.remove('text-sm');
+
+                    profileStatus.classList.remove('hidden');
+                    statusDot.classList.remove('text-green-400');
+                    statusDot.classList.add('text-purple-400'); /* Kept purple for contrast on dark */
+
+                    headerContainer.classList.add('justify-center');
+                } else {
+                    headerCard.classList.remove('scrolled');
+                    mainNav.classList.remove('md:hidden');
+                    profileName.classList.remove('text-base');
+                    profileName.classList.add('text-sm');
+
+                    profileStatus.classList.remove('hidden');
+                    statusDot.classList.remove('text-purple-400');
+                    statusDot.classList.add('text-green-400'); /* Kept green for contrast on dark */
+
+                    headerContainer.classList.remove('justify-center');
+                }
+            };
+
+            // Function to open the contact modal
+            const openContactModal = () => {
+                contactModalOverlay.classList.add('open');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling body when modal is open
+            };
+
+            // Function to close the contact modal
+            const closeContactModal = () => {
+                contactModalOverlay.classList.remove('open');
+                document.body.style.overflow = ''; // Restore body scrolling
+            };
+
+            // Event listeners for contact modal
+            contactMeButton.addEventListener('click', openContactModal);
+            contactModalCloseButton.addEventListener('click', closeContactModal);
+            contactModalOverlay.addEventListener('click', (event) => {
+                // Close modal if clicked outside the content area
+                if (event.target === contactModalOverlay) {
+                    closeContactModal();
+                }
+            });
+
+            // Intersection Observer for fade-in sections
+            const fadeInSections = document.querySelectorAll('.fade-in-section');
+            const observerOptions = {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.1 // 10% of the section must be visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, observerOptions);
+
+            fadeInSections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Add scroll event listener
+            window.addEventListener('scroll', handleScroll);
+
+            // Call once on load in case the page is already scrolled
+            handleScroll();
+        });
+
+        // Simple JavaScript for smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
